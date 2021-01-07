@@ -1,7 +1,9 @@
 const express = require('express');
-const path = require('path');
+require('dotenv').config()
 const app = express();
-// const routes = require("./routes");
+const routes = require("./routes");
+
+console.log("hello")
 
 var PORT = process.env.PORT || 3001;
 
@@ -9,9 +11,12 @@ var db = require("./models");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// app.use(express.static("client/build"));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("nba-web-stats/build"));
+}
 
-// app.use(routes);
+console.log("hello")
+app.use(routes);
 
 db.sequelize.sync().then(function() {
     app.listen(PORT, function() {

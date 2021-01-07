@@ -1,10 +1,15 @@
 {
   "name": "NBAStatsWeb",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:prod": "node server.js",
+    "start:dev": "concurrently \"nodemon --ignore 'nba-stats-web/*'\" \"npm run client\"",
+    "client": "cd nba-stats-web && npm run start",
+    "install": "cd nba-stats-web && npm install",
+    "build": "cd nba-stats-web && npm run build",
+    "heroku-postbuild": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,8 +27,12 @@
     "concurrently": "^5.3.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "if-env": "^1.0.4",
     "sequelize": "^6.3.5",
     "sequelize-cli": "^6.2.0",
     "tedious": "^9.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
   }
 }
