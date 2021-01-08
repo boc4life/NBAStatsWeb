@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         name: DataTypes.STRING,
         position: DataTypes.STRING,
         team: DataTypes.STRING
-    }, {underscored: false});
+    }, {underscored: false, timestamps: false});
     Player.associate = models => {
         Player.hasMany(models.DKSalary);
         Player.hasMany(models.PlayerGame);

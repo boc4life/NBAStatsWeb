@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import GameCard from '../../components/GameCard';
 import API from '../../utils/API';
 
 function Home() {
@@ -19,20 +20,23 @@ function Home() {
                 formattedArray.push(obj);
                 console.log(formattedArray)
             }
+            formattedArray.sort((a, b) => (a.time > b.time) ? 1 : -1)
             setGames(formattedArray);
         })
     }, []);
 
     return (
         <div>
-            <ul>
-            {games.map(game => (
-                <div>
-                    <p>{game.homeTeam} @ {game.awayTeam}</p>
-                    <p>{game.time} - {game.date}</p>
-                </div>
+            <h1>Tonight's Games</h1>
+            {games.map((game, i) => (
+                <GameCard
+                key={i}
+                awayTeam={game.awayTeam}
+                homeTeam={game.homeTeam}
+                date={game.date}
+                time={game.time}
+                />
                 ))}
-            </ul>
         </div>
     )
 }

@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         doubleDouble: DataTypes.INTEGER,
         tripleDouble: DataTypes.INTEGER,
         date: DataTypes.DATE
-    }, {underscored: false});
+    }, {underscored: false, timestamps: false});
     PlayerGame.associate = models => {
         PlayerGame.belongsTo(models.Player);
     }
