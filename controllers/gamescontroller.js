@@ -23,7 +23,7 @@ module.exports = {
 
         else {
             db.DKSalary.findAll({
-            attributes: [[db.DKSalary.sequelize.fn('DISTINCT'), sequelize.col('gameInfo'), 'gameInfo']],
+            attributes: [[db.DKSalary.sequelize.fn('DISTINCT', db.DKSalary.sequelize.col('gameInfo')), 'gameInfo']],
             where: {
                 gameInfo: {
                     [Op.like]: `%${month + 1}/${day}/${year}%`
