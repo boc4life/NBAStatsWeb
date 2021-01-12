@@ -3,7 +3,6 @@ import API from '../../utils/API';
 import Table from '../../components/Table';
 import TableRow from '../../components/TableRow';
 import FilterColumns from '../../components/FilterColumns';
-import { event } from 'jquery';
 
 function SingleTeam(props) {
     const team = props.match.params.team;
@@ -17,6 +16,13 @@ function SingleTeam(props) {
             setPlayers(data.data);
         })
     }, [])
+
+    useEffect(() => {
+        API.getStatsByFilters({filterGames, players})
+        .then(data => {
+            console.log(data)
+        })
+    }, [filterGames, players])
 
     const handleFilterChange = event => {
         console.log(event);

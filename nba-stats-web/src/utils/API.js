@@ -7,6 +7,10 @@ const API = {
 
     getTonightsGamesByTeam: (team) => {
         return axios.get("/api/teams/tonight/" + team)
+    },
+
+    getStatsByFilters: (filters) => {
+        return axios.post("/api/teams/filterStats/", filters)
     }
 }
 

@@ -12,7 +12,7 @@ module.exports = {
 
         if (day < 10) {
             db.DKSalary.findAll({
-                attributes: ["name", "position", "salary", "avgPointsPerGame"],
+                attributes: ["name", "position", "salary", "avgPointsPerGame", "playerId"],
                 where: {
                     date: `${month + 1}/0${day}/${year}`,
                     teamAbbrev: team
@@ -24,7 +24,7 @@ module.exports = {
 
         else {
             db.DKSalary.findAll({
-                attributes: ["name", "position", "salary", "avgPointsPerGame"],
+                attributes: ["name", "position", "salary", "avgPointsPerGame", "playerId"],
                 where: {
                     date: `${month + 1}/${day}/${year}`,
                     teamAbbrev: team
@@ -33,5 +33,24 @@ module.exports = {
                 res.json(data);
             })
         }
+    },
+
+    filterStats: (req, res) => {
+        const {players, filterGames} = req.body;
+        const respArr = [];
+        for (let i = 0; i < players.length; i++){
+            db.PlayerGame.findAll({
+                where: {
+                    playerId: players[i].playerId,
+                    minutes: {
+                        [Op.gt]: 0
+                    }
+                },
+                limit: filterGames == "All" ? null : filterGames
+            }).then(data => {
+                if (i == 0) console.log(data)
+            })
+        }
+        res.json({})
     }
 }
