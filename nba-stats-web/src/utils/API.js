@@ -11,6 +11,10 @@ const API = {
 
     getStatsByFilters: (filters) => {
         return axios.post("/api/teams/filterStats/", filters)
+    },
+
+    getGamesByPlayer: (player) => {
+        return axios.get("/api/players/" + player)
     }
 }
 

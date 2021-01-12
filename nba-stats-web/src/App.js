@@ -4,6 +4,7 @@ import Teams from './pages/Teams';
 import Players from './pages/Players';
 import Navbar from './components/Navbar';
 import SingleTeam from './pages/SingleTeam';
+import SinglePlayer from './pages/SinglePlayer';
 import './App.css';
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/teams" component={Teams} />
             <Route exact path="/players" component={Players} />
-            <Route path="/teams/:team" component={SingleTeam} />
+            <Route exact path="/teams/:team" component={SingleTeam} />
+            <Route exact path="/players/:player" component={SinglePlayer} />
           </Switch>
         </Router>
       </div>

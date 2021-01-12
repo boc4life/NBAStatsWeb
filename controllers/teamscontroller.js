@@ -8,7 +8,6 @@ module.exports = {
         const day = today.getDate();
         const month = today.getMonth();
         const year = today.getFullYear();
-        console.log(team)
 
         if (day < 10) {
             db.DKSalary.findAll({
@@ -37,20 +36,43 @@ module.exports = {
 
     filterStats: (req, res) => {
         const {players, filterGames} = req.body;
-        const respArr = [];
+        const promiseArr = [];
         for (let i = 0; i < players.length; i++){
-            db.PlayerGame.findAll({
-                where: {
+            promiseArr.push(new Promise((resolve, reject) => {
+                let obj = {
+                    name: players[i].name,
                     playerId: players[i].playerId,
-                    minutes: {
-                        [Op.gt]: 0
-                    }
-                },
-                limit: filterGames == "All" ? null : filterGames
-            }).then(data => {
-                if (i == 0) console.log(data)
+                    position: players[i].position,
+                    salary: players[i].salary
+                }
+                db.PlayerGame.findAll({
+                    where: {
+                        playerId: players[i].playerId,
+                        minutes: {
+                            [Op.gt]: 0
+                        }
+                    },
+                    limit: filterGames == "All" ? null : parseInt(filterGames)
+                }).then(data => {
+                    obj.points = findAverage(data, "points")
+                    obj.rebounds = findAverage(data, "rebounds")
+                    obj.assists = findAverage(data, "assists")
+                    obj.steals = findAverage(data, "steals")
+                    obj.blocks = findAverage(data, "blocks")
+                    resolve(obj)
+                })
             })
-        }
-        res.json({})
+        )}
+        Promise.all(promiseArr).then(data => {
+            res.json({data})
+        })
+        
     }
+}
+
+function findAverage(arr, prop) {
+    const { length } = arr;
+    return arr.reduce((acc, val) => {
+      return acc + (val[prop]/length);
+   }, 0);
 }

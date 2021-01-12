@@ -16,7 +16,13 @@ module.exports = (sequelize, DataTypes) => {
         opponent: DataTypes.STRING,
         doubleDouble: DataTypes.INTEGER,
         tripleDouble: DataTypes.INTEGER,
-        date: DataTypes.DATE
+        date: DataTypes.DATE,
+        fantasyPoints: {
+            type: DataTypes.VIRTUAL,
+            get() {
+                return this.getDataValue("points") + (this.getDataValue("rebounds") * 1.25) + (this.getDataValue("assists") * 1.5) + (this.getDataValue("steals") * 2) + (this.getDataValue("blocks") * 2) + (this.getDataValue("doubleDouble") * 1.5) + (this.getDataValue("tripleDouble") * 3) + (this.getDataValue("tpm") * .5) - (this.getDataValue("turnovers") * 5)
+            }
+        }
     }, {underscored: false, timestamps: false});
     PlayerGame.associate = models => {
         PlayerGame.belongsTo(models.Player);

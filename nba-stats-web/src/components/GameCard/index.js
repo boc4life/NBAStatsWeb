@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 function GameCard(props) {
     return (
         <div className="card">
