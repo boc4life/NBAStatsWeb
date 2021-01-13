@@ -7,7 +7,8 @@ module.exports = {
             include: [db.Player],
             where: {
                 playerId: req.params.player
-            }
+            },
+            order: [["date", "DESC"]]
         }).then(data => {
             res.json(data);
         })
